@@ -13,11 +13,14 @@ namespace TrashCollector.Controllers
     public class CustomersController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+            
 
+       
         // GET: Customers
         public ActionResult Index()
         {
-            return View(db.Customers.ToList());
+            var customer = db.Customers.ToList();
+            return View(customer);
         }
 
         // GET: Customers/Details/5
@@ -39,7 +42,7 @@ namespace TrashCollector.Controllers
         public ActionResult Create()
         {
             Customer customer = new Customer();
-            return View();
+            return View(customer);
         }
 
         // POST: Customers/Create
