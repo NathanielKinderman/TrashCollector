@@ -13,9 +13,10 @@ namespace TrashCollector.Controllers
     public class CustomersController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-            
+        private object[] id;
 
-       
+
+
         // GET: Customers
         public ActionResult Index()
         {
@@ -56,7 +57,7 @@ namespace TrashCollector.Controllers
             {
                 db.Customers.Add(customer);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Customers");
             }
 
             return View(customer);
@@ -86,9 +87,15 @@ namespace TrashCollector.Controllers
         {
             if (ModelState.IsValid)
             {
+                
                 db.Entry(customer).State = EntityState.Modified;
+                customer.firstName = Request.Form["firstName"];
+                customer.lastName = Request.Form["lastName"];
+                customer.address = Request.Form["address"];
+                customer.city = Request.Form["city"];
+                customer.zipCode = Request.Form["zipCode"];
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Customer");
             }
             return View(customer);
         }
