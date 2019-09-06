@@ -14,10 +14,7 @@ namespace TrashCollector.Controllers
     public class CustomersController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-        private object[] id;
-
-
-
+       
         // GET: Customers
         public ActionResult Index()
         {
@@ -52,7 +49,7 @@ namespace TrashCollector.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,firstName,lastName,address,city,zipCode")] Customer customer)
+        public ActionResult Create([Bind(Include = "Id,firstName,lastName,address,city,zipCode,dayOfTheWeekForPickUp,oneTimePickUp,startAndEndDateForSuspendDate")] Customer customer)
         {
             if (ModelState.IsValid)
             {
@@ -85,7 +82,7 @@ namespace TrashCollector.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,firstName,lastName,address,city,zipCode")] Customer customer)
+        public ActionResult Edit([Bind(Include = "Id,firstName,lastName,address,city,zipCode,dayOfTheWeekForPickUp,oneTimePickUp,startAndEndDateForSuspendDate")] Customer customer)
         {
             if (ModelState.IsValid)
             {
@@ -96,10 +93,13 @@ namespace TrashCollector.Controllers
                 customer.address = Request.Form["address"];
                 customer.city = Request.Form["city"];
                 customer.zipCode = Request.Form["zipCode"];
+                customer.dayOfTheWeekForPickUp = Request.Form["dayOfTheWeekForPickUp"];
+                customer.oneTimePickUp = Request.Form["oneTimePickUp"];
+                customer.startAndEndDateForSuspendDate = Request.Form["startAndEndDateForSuspendDate"];
                 db.SaveChanges();
-                return RedirectToAction("Index", "Customer");
+                return RedirectToAction("Index", "Customers");
             }
-            return View(customer);
+            return View();
         }
 
         // GET: Customers/Delete/5
@@ -125,7 +125,7 @@ namespace TrashCollector.Controllers
             Customer customer = db.Customers.Find(id);
             db.Customers.Remove(customer);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Customer");
         }
 
         protected override void Dispose(bool disposing)
