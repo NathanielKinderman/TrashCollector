@@ -49,7 +49,7 @@ namespace TrashCollector.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,firstName,lastName,address,city,zipCode,dayOfTheWeekForPickUp,oneTimePickUp,startAndEndDateForSuspendDate")] Customer customer)
+        public ActionResult Create([Bind(Include = "Id,firstName,lastName,address,city,zipCode,dayOfTheWeekForPickUp,oneTimePickUp,startAndEndDateForSuspendDate,ApplicationUserId")] Customer customer)
         {
             if (ModelState.IsValid)
             {
@@ -65,11 +65,19 @@ namespace TrashCollector.Controllers
         // GET: Customers/Edit/5
         public ActionResult Edit(int? id)
         {
+            Customer customer;
+
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                string currentUserId = User.Identity.GetUserId();
+                customer = db.Customers.Where(c=>c.ApplicationUserId==currentUserId).FirstOrDefault();
+                
             }
-            Customer customer = db.Customers.Find(id);
+            else
+            {
+                customer = db.Customers.Find(id);
+            }
+
             if (customer == null)
             {
                 return HttpNotFound();

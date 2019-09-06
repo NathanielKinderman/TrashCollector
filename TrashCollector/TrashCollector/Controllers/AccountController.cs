@@ -81,6 +81,14 @@ namespace TrashCollector.Controllers
             {
                 case SignInStatus.Success:
                     //todo change redirtect
+                    if (User.IsInRole("Customer"))
+                    {
+                        RedirectToAction("Edit");
+                    }
+                    else if (User.IsInRole("Employee"))
+                    {
+                        RedirectToAction("Edit");
+                    }
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
