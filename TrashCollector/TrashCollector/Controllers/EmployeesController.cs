@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -13,6 +14,7 @@ namespace TrashCollector.Controllers
     public class EmployeesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private object employee;
 
         // GET: Employees
         public ActionResult Index()
@@ -34,11 +36,37 @@ namespace TrashCollector.Controllers
             }
             return View(employee);
         }
+        public ActionResult PickUpToday()
+        {
+           
+            var userLoggedin = User.Identity.GetUserId();
+            var employee = db.Employees.Where(e => e.ApplicationUserId == userLoggedin).Single();
+            
+            var customersInArea = db.Customers.Where(c => c.zipCode == employee.zipCode).ToList();
+
+            return View(customersInArea);
+        }
+
+        public ActionResult PickUpDay()
+        {
+            var userLoggedin = User.Identity.GetUserId();
+            var employee = db.Employees.Where(e => e.ApplicationUserId == userLoggedin).Single();
+
+            var customersInArea = db.Customers.Where(c => c.zipCode == employee.zipCode).ToList();
+            var todayinZip = db.Customers.Where(c => c.dayOfTheWeekForPickUp ==)
+
+            return View(customersInArea);
+
+
+
+        }
+
 
         // GET: Employees/Create
         public ActionResult Create()
         {
-            return View();
+            Employee employee = new Employee();
+            return View(employee);
         }
 
         // POST: Employees/Create
@@ -46,13 +74,15 @@ namespace TrashCollector.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,firstName,lastName,zipCode")] Employee employee)
+        public ActionResult Create([Bind(Include = "Id,firstName,lastName,zipCode,ApplicationUserId")] Employee employee)
         {
             if (ModelState.IsValid)
             {
+                employee.ApplicationUserId = User.Identity.GetUserId();
                 db.Employees.Add(employee);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                //pickupstoday 
+                return RedirectToAction("");
             }
 
             return View(employee);
@@ -78,13 +108,16 @@ namespace TrashCollector.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,firstName,lastName,zipCode")] Employee employee)
+        public ActionResult Edit([Bind(Include = "Id,firstName,lastName,zipCode,ApplicationUserId")] Employee employee)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(employee).State = EntityState.Modified;
+                employee.firstName = Request.Form["firstName"];
+                employee.lastName = Request.Form["lastName"];
+                employee.zipCode = Request.Form["zipCode"];
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index","Employees");
             }
             return View(employee);
         }
@@ -112,7 +145,7 @@ namespace TrashCollector.Controllers
             Employee employee = db.Employees.Find(id);
             db.Employees.Remove(employee);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index","Employee");
         }
 
         protected override void Dispose(bool disposing)

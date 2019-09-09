@@ -31,7 +31,7 @@ namespace TrashCollector.Controllers
             // else if employee, go somewhere else
             else if (User.IsInRole("Employee"))
             {
-                return RedirectToAction("Edit", "Employees");
+                return RedirectToAction("PickUpToday", "Employees");
             }
             return View();
         }
