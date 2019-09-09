@@ -191,6 +191,10 @@
     <Compile Include="Migrations\201909091535285_employee user id migrations.Designer.cs">
       <DependentUpon>201909091535285_employee user id migrations.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201909092038039_addedGotPickedBool.cs" />
+    <Compile Include="Migrations\201909092038039_addedGotPickedBool.Designer.cs">
+      <DependentUpon>201909092038039_addedGotPickedBool.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -268,7 +272,7 @@
     <Content Include="Views\Customers\Edit.cshtml" />
     <Content Include="Views\Employees\ConfirmPickUp.cshtml" />
     <Content Include="Views\Employees\PickUpToday.cshtml" />
-    <Content Include="Views\Employees\PickUpDay.cshtml" />
+    <Content Include="Views\Employees\PickUpByCustomerRequestedDay.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -298,6 +302,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201909091535285_employee user id migrations.resx">
       <DependentUpon>201909091535285_employee user id migrations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909092038039_addedGotPickedBool.resx">
+      <DependentUpon>201909092038039_addedGotPickedBool.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

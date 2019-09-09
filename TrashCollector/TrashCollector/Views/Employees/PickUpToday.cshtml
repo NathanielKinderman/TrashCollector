@@ -5,9 +5,14 @@
 }
 
 <h2>PickUpToday</h2>
+@using (Html.BeginForm("PickUpToday", "Employees"))
+{
+    @Html.Editor("SearchText")
+    <input type="submit" value="Search" class="btn btn-default" />
+}
 
 <p>
-    @Html.ActionLink("Search by Day", "PickUpDay")
+    @Html.ActionLink("Search by Day", "PickUpToday")
 </p>
 <table class="table">
     <tr>
@@ -41,47 +46,55 @@
         <th>
             @Html.DisplayNameFor(model => model.ApplicationUserId)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.gotPickedUp)
+        </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.firstName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.lastName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.address)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.city)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.zipCode)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.dayOfTheWeekForPickUp)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.oneTimePickUp)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.amountOwed)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.startAndEndDateForSuspendDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ApplicationUserId)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.firstName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.lastName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.address)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.city)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.zipCode)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.dayOfTheWeekForPickUp)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.oneTimePickUp)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.amountOwed)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.startAndEndDateForSuspendDate)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.ApplicationUserId)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.gotPickedUp)
+    </td>
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+        @Html.ActionLink("Confirm Pick Up", "ConfirmPickUp", new { id = item.Id }) |
+        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+    </td>
+</tr>
+    }
 
 </table>

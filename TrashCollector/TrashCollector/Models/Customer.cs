@@ -47,6 +47,9 @@ namespace TrashCollector.Models
         [DataType(DataType.Date)]
         public string startAndEndDateForSuspendDate { get; set; }
 
+        [Display(Name = "Got Picked Up")]
+        public bool gotPickedUp { get; set; }
+
 
         [ForeignKey("ApplicationUser")]
         [Display(Name = "UserID")]

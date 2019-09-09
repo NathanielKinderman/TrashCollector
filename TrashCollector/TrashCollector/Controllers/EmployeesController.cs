@@ -36,30 +36,60 @@ namespace TrashCollector.Controllers
             }
             return View(employee);
         }
-        public ActionResult PickUpToday()
+        public ActionResult PickUpToday(string SearchText)
         {
-           
+
+            var today = DateTime.Today;
+            var pickuptoday = today.DayOfWeek.ToString();
             var userLoggedin = User.Identity.GetUserId();
             var employee = db.Employees.Where(e => e.ApplicationUserId == userLoggedin).Single();
             
-            var customersInArea = db.Customers.Where(c => c.zipCode == employee.zipCode).ToList();
+            
+            
+            if(SearchText == null)
+            {
+                var customersInArea = db.Customers.Where(c => c.zipCode == employee.zipCode && c.dayOfTheWeekForPickUp == pickuptoday).ToList();
+                return View(customersInArea);
+            }
 
-            return View(customersInArea);
+            else
+            {
+                var customersByDay = db.Customers.Where(c => c.zipCode == employee.zipCode && c.dayOfTheWeekForPickUp == SearchText).ToList();
+                return View(customersByDay);
+
+            }
+            
         }
-
-        public ActionResult PickUpDay()
+        
+        public ActionResult ConfirmPickUp(int Id)
         {
-            var userLoggedin = User.Identity.GetUserId();
-            var employee = db.Employees.Where(e => e.ApplicationUserId == userLoggedin).Single();
 
-            var customersInArea = db.Customers.Where(c => c.zipCode == employee.zipCode).ToList();
-            var todayinZip = db.Customers.Where(c => c.dayOfTheWeekForPickUp ==)
+            // grab correct customer based off of customer id passed in as parameter
+            // set customer pick up bool to true
+            //save in database
+            //redirect to pickuptoday page
+            
+            var customer = db.Customers.Find(Id);
+            customer.gotPickedUp = true;
+            ChargingCustomer(customer);
 
-            return View(customersInArea);
-
-
+            db.SaveChanges();
+            return RedirectToAction("PickUpToday");
 
         }
+
+
+        public void ChargingCustomer(Customer customer)
+        {
+            customer.amountOwed += 5.00;
+            //employee picked up then charged that customer
+            //if customers trash is picked up then customer amount owed is increased
+
+        }
+
+
+
+        
 
 
         // GET: Employees/Create
