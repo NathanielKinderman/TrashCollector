@@ -62,12 +62,7 @@ namespace TrashCollector.Controllers
         }
         
         public ActionResult ConfirmPickUp(int Id)
-        {
-
-            // grab correct customer based off of customer id passed in as parameter
-            // set customer pick up bool to true
-            //save in database
-            //redirect to pickuptoday page
+        {                     
             
             var customer = db.Customers.Find(Id);
             customer.gotPickedUp = true;
@@ -82,8 +77,7 @@ namespace TrashCollector.Controllers
         public void ChargingCustomer(Customer customer)
         {
             customer.amountOwed += 5.00;
-            //employee picked up then charged that customer
-            //if customers trash is picked up then customer amount owed is increased
+           
 
         }
 
