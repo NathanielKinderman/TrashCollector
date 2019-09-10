@@ -112,7 +112,7 @@ namespace TrashCollector.Controllers
                 db.Employees.Add(employee);
                 db.SaveChanges();
                 //pickupstoday 
-                return RedirectToAction("");
+                return RedirectToAction("Index");
             }
 
             return View(employee);
